@@ -31,5 +31,56 @@ export const getAllRockets = async ()=>{
         composite_diameter : listaDiameterComposite.shift().meters,
         composite_height: listaHeightComposite.shift().meters
     });
+    
     return data;
 }
+
+
+export const getMassAllRockets = async()=>{
+    let config = {
+        headers:{
+            "content-type": "application/json"
+        },
+        method: "POST",
+        body: JSON.stringify({
+            "options":{
+                "select": {
+                    "name":1,
+                    "mass":1
+                },
+                "sort":{
+                    "mass.kg": "desc"
+                }
+            }
+        })
+    }
+    let res = await fetch("https://api.spacexdata.com/v4/rockets/query", config);
+    let data= await res.json();
+    console.log("Se retornan las masas de los cohetes de mayor a menor masa: ",data);
+    return data;
+}
+
+export const getMaxMass = async()=>{
+    let config = {
+        headers:{
+            "content-type": "application/json"
+        },
+        method: "POST",
+        body: JSON.stringify({
+            "options":{
+                "select": {
+                    "name":1,
+                    "mass":1
+                },
+                "sort":{
+                    "mass.kg": "desc"
+                }
+            }
+        })
+    }
+    let res = await fetch("https://api.spacexdata.com/v4/rockets/query", config);
+    let {docs:[{name, mass: {kg:maximo}}= {kg:maxMassRocket}]}= await res.json();
+    console.log("Se retorna la masa maxima de todos los cohetes: ", name, maximo);
+    return {maximo, name};
+}
+
