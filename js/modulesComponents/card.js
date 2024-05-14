@@ -15,3 +15,18 @@ export const imageRockets = async(flickr_images)=>{
     //     <img src="https://farm5.staticflickr.com/4599/38583829295_581f34dd84_b.jpg" referrerpolicy="no-referrer">
     // </div>
 }
+
+document.querySelector('#section__image').addEventListener('wheel', function(e) {
+    e.preventDefault(); // Prevenir el comportamiento de desplazamiento predeterminado
+
+    // Obtener el desplazamiento actual
+    var scrollLeft = this.scrollLeft;
+
+    // Ajustar el desplazamiento horizontal
+    this.scrollLeft += e.deltaY;
+
+    // Si el desplazamiento horizontal no cambia, desplazar verticalmente
+    if (scrollLeft === this.scrollLeft) {
+        this.scrollLeft += e.deltaX;
+    }
+});
